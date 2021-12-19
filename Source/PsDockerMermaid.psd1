@@ -1,6 +1,6 @@
 @{
     RootModule = 'PsDockerMermaid.psm1'
-    ModuleVersion = '0.0.0'
+    ModuleVersion = '0.1.0'
     GUID = '4509c1e9-4363-48ca-a874-8860d3985abc'
     Author = 'Steffen Kampmann'
     Copyright = '(c) 2021 s.kampmann. Alle Rechte vorbehalten.'
