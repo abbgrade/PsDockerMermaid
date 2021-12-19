@@ -38,7 +38,7 @@ task Install -Jobs Build, {
 }
 
 # Synopsis: Publish the module to PSGallery.
-task Publish -Jobs Clean, Build, {
-	# Publish-Module -Name PsDockerMermaid -NuGetApiKey $NuGetApiKey
-    Publish-PSResource -Path $buildPath\PsDockerMermaid -APIKey $NuGetApiKey
+task Publish -Jobs Clean, Install, {
+	Publish-Module -Name PsDockerMermaid -NuGetApiKey $NuGetApiKey
+    # Publish-PSResource -Path $buildPath\PsDockerMermaid -APIKey $NuGetApiKey
 }
