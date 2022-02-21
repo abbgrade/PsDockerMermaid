@@ -18,7 +18,7 @@ jobs:
 
       - name: Create build
         shell: pwsh
-        run: Invoke-Build Build -Configuration Release
+        run: Invoke-Build Build
 
       - name: Upload build
         uses: actions/upload-artifact@v2
