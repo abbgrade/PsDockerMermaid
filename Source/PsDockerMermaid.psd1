@@ -14,5 +14,5 @@
         }
     }
     DefaultCommandPrefix = 'Mermaid'
-    RequiredModules = @{ ModuleName='PsDocker'; RequiredVersion='1.6.0' }
+    RequiredModules = @{ ModuleName='psdocker'; RequiredVersion='1.6.0' }
 }
