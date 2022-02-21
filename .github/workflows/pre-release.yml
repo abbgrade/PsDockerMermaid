@@ -28,7 +28,7 @@ jobs:
 
   release:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v2
