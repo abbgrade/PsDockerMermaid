@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
@@ -14,11 +14,11 @@ jobs:
         shell: pwsh
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module InvokeBuild, platyPS -ErrorAction Stop
+          Install-Module InvokeBuild, platyPS, psdocker -ErrorAction Stop
 
       - name: Create build
         shell: pwsh
-        run: Invoke-Build Build -Configuration Release -BuildNumber ${{ github.run_number }}
+        run: Invoke-Build Build -BuildNumber ${{ github.run_number }}
 
       - name: Upload build
         uses: actions/upload-artifact@v2
@@ -28,12 +28,18 @@ jobs:
 
   release:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v2
         with:
           name: build
+
+      - name: Install release dependencies
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module psdocker -ErrorAction Stop
 
       - name: Publish to PsGallery
         shell: pwsh
