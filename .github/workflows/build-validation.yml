@@ -21,6 +21,11 @@ jobs:
           Set-PSRepository PSGallery -InstallationPolicy Trusted
           Install-Module InvokeBuild, platyPs, psdocker -ErrorAction Stop
 
+      - name: Import dependencies
+        shell: pwsh
+        run: |
+          Import-Module psdocker
+
       - name: Create build
         shell: pwsh
         run: Invoke-Build Build
