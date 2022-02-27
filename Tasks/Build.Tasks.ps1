@@ -18,6 +18,12 @@ task Import -Jobs {
 
 # Synopsis: Initialize the documentation.
 task Doc.Init -If { $DocumentationDirectory.Exists -eq $false -Or $ForceDocInit -eq $true } -Jobs Import, {
+    if ( -not $DocumentationDirectory.Exists ) {
+        Write-Verbose "Create $DocumentationDirectory."
+    }
+    if ( $ForceDocInit ) {
+        Write-Verbose "Force create $DocumentationDirectory."
+    }
 	New-Item $DocumentationDirectory -ItemType Directory -ErrorAction SilentlyContinue
     New-MarkdownHelp -Module $ModuleName -OutputFolder $DocumentationDirectory -Force:$ForceDocInit -ErrorAction Stop
 }
@@ -38,7 +44,7 @@ task SetPrerelease -If $BuildNumber {
 }
 
 # Synopsis: Build the module.
-task Build -Jobs Doc.Update, PreparePublishDirectory, {
+task Build -Jobs Clean, Doc.Update, PreparePublishDirectory, {
 	Copy-Item -Path $SourceDirectory -Destination $ModulePublishDirectory -Recurse
     [System.IO.FileInfo] $Global:Manifest = "$ModulePublishDirectory\$ModuleName.psd1"
 }, SetPrerelease
