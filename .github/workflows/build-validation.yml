@@ -19,16 +19,27 @@ jobs:
         shell: pwsh
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module InvokeBuild, platyPs, PsDocker -ErrorAction Stop
+          Install-Module InvokeBuild, platyPs -ErrorAction Stop
+
+      - name: Install prerelease build dependencies
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module psdocker -ErrorAction Stop -AllowPrerelease
+
+      - name: Import dependencies
+        shell: pwsh
+        run: |
+          Import-Module psdocker
 
       - name: Create build
         shell: pwsh
-        run: Invoke-Build Build
+        run: Invoke-Build Build -Verbose
 
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:
-          path: publish
+          path: Publish
           name: ${{ matrix.os }}-build
   test:
     needs: build
@@ -44,8 +55,14 @@ jobs:
       - name: Download build
         uses: actions/download-artifact@v2
         with:
-          path: publish
+          path: Publish
           name: ${{ matrix.os }}-build
+
+      - name: Install prerelease test dependencies
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module psdocker -ErrorAction Stop -AllowPrerelease
 
       - name: Run tests
         shell: pwsh
