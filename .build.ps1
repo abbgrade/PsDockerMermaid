@@ -27,6 +27,7 @@ param(
 
 $ModuleName = 'PsDockerMermaid'
 
+. $PSScriptRoot\Tasks\Dependency.Tasks.ps1
 . $PSScriptRoot\Tasks\Build.Tasks.ps1
 
 # Synopsis: Default task.
